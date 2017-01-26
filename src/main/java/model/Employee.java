@@ -10,16 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
-
 @Entity
 @Table(name = "employee")
 public class Employee implements Serializable {
-	
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique=true)
+	@Column(unique = true)
 	private int id;
 
 	@Column(name = "name", nullable = false, length = 255)
@@ -43,15 +40,14 @@ public class Employee implements Serializable {
 	@Column(name = "marital_status", nullable = false)
 	private boolean maritalStatus; // true= ¿onaty, false = kawaler
 
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + id;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -64,11 +60,21 @@ public class Employee implements Serializable {
 		Employee other = (Employee) obj;
 		if (id != other.id)
 			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
 		return true;
 	}
 
 	public Employee() {
 
+	}
+
+	public Employee(int id, String name) {
+		this.id = id;
+		this.name = name;
 	}
 
 	public Employee(String name, String surname, String sex, int deptNo, BigDecimal sallary, int age, String position,
@@ -100,7 +106,6 @@ public class Employee implements Serializable {
 		this.maritalStatus = maritalStatus;
 	}
 
-	
 	public int getId() {
 		return id;
 	}
